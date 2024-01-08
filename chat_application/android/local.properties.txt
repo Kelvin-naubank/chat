@@ -1,0 +1,2 @@
+C:\Users\hp\AppData\Local\Android\Sdk
+flutter.sdk=C:\\Users\\hp\\Downloads\\flutter_windows_3.16.5-stable\\flutter
