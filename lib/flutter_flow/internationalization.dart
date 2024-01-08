@@ -351,7 +351,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
   },
   // GraphPage
   {
-    'kz3wikqv': {
+    'mhephfi7': {
       'en': 'Home',
       'es': '',
     },

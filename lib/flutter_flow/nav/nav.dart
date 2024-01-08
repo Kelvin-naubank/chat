@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:go_router/go_router.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import '/backend/backend.dart';
 
@@ -10,7 +12,10 @@ import '/auth/base_auth_user_provider.dart';
 import '/index.dart';
 import '/main.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/lat_lng.dart';
+import '/flutter_flow/place.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import 'serialization_util.dart';
 
 export 'package:go_router/go_router.dart';
 export 'serialization_util.dart';
@@ -75,25 +80,25 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? const NavBarPage() : const Auth2CreateWidget(),
+          appStateNotifier.loggedIn ? NavBarPage() : Auth2CreateWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
           builder: (context, _) =>
-              appStateNotifier.loggedIn ? const NavBarPage() : const Auth2CreateWidget(),
+              appStateNotifier.loggedIn ? NavBarPage() : Auth2CreateWidget(),
         ),
         FFRoute(
           name: 'auth_2_Create',
           path: '/auth2Create',
-          builder: (context, params) => const Auth2CreateWidget(),
+          builder: (context, params) => Auth2CreateWidget(),
         ),
         FFRoute(
           name: 'auth_2_Login',
           path: '/auth2Login',
           builder: (context, params) => params.isEmpty
-              ? const NavBarPage(initialPage: 'auth_2_Login')
-              : const NavBarPage(
+              ? NavBarPage(initialPage: 'auth_2_Login')
+              : NavBarPage(
                   initialPage: 'auth_2_Login',
                   page: Auth2LoginWidget(),
                 ),
@@ -102,8 +107,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'auth_2_ForgotPassword',
           path: '/auth2ForgotPassword',
           builder: (context, params) => params.isEmpty
-              ? const NavBarPage(initialPage: 'auth_2_ForgotPassword')
-              : const NavBarPage(
+              ? NavBarPage(initialPage: 'auth_2_ForgotPassword')
+              : NavBarPage(
                   initialPage: 'auth_2_ForgotPassword',
                   page: Auth2ForgotPasswordWidget(),
                 ),
@@ -111,14 +116,14 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: 'auth_2_createProfile',
           path: '/auth2CreateProfile',
-          builder: (context, params) => const Auth2CreateProfileWidget(),
+          builder: (context, params) => Auth2CreateProfileWidget(),
         ),
         FFRoute(
           name: 'auth_2_Profile',
           path: '/auth2Profile',
           builder: (context, params) => params.isEmpty
-              ? const NavBarPage(initialPage: 'auth_2_Profile')
-              : const NavBarPage(
+              ? NavBarPage(initialPage: 'auth_2_Profile')
+              : NavBarPage(
                   initialPage: 'auth_2_Profile',
                   page: Auth2ProfileWidget(),
                 ),
@@ -127,8 +132,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'auth_2_EditProfile',
           path: '/auth2EditProfile',
           builder: (context, params) => params.isEmpty
-              ? const NavBarPage(initialPage: 'auth_2_EditProfile')
-              : const NavBarPage(
+              ? NavBarPage(initialPage: 'auth_2_EditProfile')
+              : NavBarPage(
                   initialPage: 'auth_2_EditProfile',
                   page: Auth2EditProfileWidget(),
                 ),
@@ -147,8 +152,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'chat_2_main',
           path: '/chat2Main',
           builder: (context, params) => params.isEmpty
-              ? const NavBarPage(initialPage: 'chat_2_main')
-              : const NavBarPage(
+              ? NavBarPage(initialPage: 'chat_2_main')
+              : NavBarPage(
                   initialPage: 'chat_2_main',
                   page: Chat2MainWidget(),
                 ),
@@ -160,7 +165,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             'chatRef': getDoc(['chats'], ChatsRecord.fromSnapshot),
           },
           builder: (context, params) => params.isEmpty
-              ? const NavBarPage(initialPage: 'chat_2_InviteUsers')
+              ? NavBarPage(initialPage: 'chat_2_InviteUsers')
               : NavBarPage(
                   initialPage: 'chat_2_InviteUsers',
                   page: Chat2InviteUsersWidget(
@@ -182,7 +187,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: 'GraphPage',
           path: '/graphPage',
-          builder: (context, params) => const GraphPageWidget(),
+          builder: (context, params) => GraphPageWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
       observers: [routeObserver],
@@ -415,7 +420,7 @@ class TransitionInfo {
   final Duration duration;
   final Alignment? alignment;
 
-  static TransitionInfo appDefault() => const TransitionInfo(hasTransition: false);
+  static TransitionInfo appDefault() => TransitionInfo(hasTransition: false);
 }
 
 class RootPageContext {

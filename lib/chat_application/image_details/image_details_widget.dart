@@ -3,20 +3,24 @@ import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'image_details_model.dart';
 export 'image_details_model.dart';
 
 class ImageDetailsWidget extends StatefulWidget {
   const ImageDetailsWidget({
-    super.key,
+    Key? key,
     required this.chatMessage,
-  });
+  }) : super(key: key);
 
   final ChatMessagesRecord? chatMessage;
 
@@ -46,15 +50,15 @@ class _ImageDetailsWidgetState extends State<ImageDetailsWidget>
           curve: Curves.easeInOut,
           delay: 0.ms,
           duration: 300.ms,
-          begin: const Offset(0.0, 30.0),
-          end: const Offset(0.0, 0.0),
+          begin: Offset(0.0, 30.0),
+          end: Offset(0.0, 0.0),
         ),
         ScaleEffect(
           curve: Curves.easeInOut,
           delay: 0.ms,
           duration: 300.ms,
-          begin: const Offset(0.7, 0.7),
-          end: const Offset(1.0, 1.0),
+          begin: Offset(0.7, 0.7),
+          end: Offset(1.0, 1.0),
         ),
       ],
     ),
@@ -73,15 +77,15 @@ class _ImageDetailsWidgetState extends State<ImageDetailsWidget>
           curve: Curves.easeInOut,
           delay: 0.ms,
           duration: 300.ms,
-          begin: const Offset(0.0, 30.0),
-          end: const Offset(0.0, 0.0),
+          begin: Offset(0.0, 30.0),
+          end: Offset(0.0, 0.0),
         ),
         TiltEffect(
           curve: Curves.easeInOut,
           delay: 0.ms,
           duration: 300.ms,
-          begin: const Offset(-0.698, 0),
-          end: const Offset(0, 0),
+          begin: Offset(-0.698, 0),
+          end: Offset(0, 0),
         ),
       ],
     ),
@@ -135,7 +139,7 @@ class _ImageDetailsWidgetState extends State<ImageDetailsWidget>
               context.pop();
             },
           ),
-          actions: const [],
+          actions: [],
           centerTitle: false,
           elevation: 0.0,
         ),
@@ -146,15 +150,15 @@ class _ImageDetailsWidgetState extends State<ImageDetailsWidget>
             children: [
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(12.0),
+                  padding: EdgeInsets.all(12.0),
                   child: Hero(
                     tag: widget.chatMessage!.image,
                     transitionOnUserGestures: true,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
                       child: CachedNetworkImage(
-                        fadeInDuration: const Duration(milliseconds: 500),
-                        fadeOutDuration: const Duration(milliseconds: 500),
+                        fadeInDuration: Duration(milliseconds: 500),
+                        fadeOutDuration: Duration(milliseconds: 500),
                         imageUrl: widget.chatMessage!.image,
                         width: double.infinity,
                         fit: BoxFit.fitWidth,
@@ -167,7 +171,7 @@ class _ImageDetailsWidgetState extends State<ImageDetailsWidget>
                 ),
               ),
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(12.0, 12.0, 12.0, 32.0),
+                padding: EdgeInsetsDirectional.fromSTEB(12.0, 12.0, 12.0, 32.0),
                 child: FutureBuilder<UsersRecord>(
                   future: FFAppState().userDocQuery(
                     uniqueQueryKey: widget.chatMessage?.reference.id,
@@ -194,7 +198,7 @@ class _ImageDetailsWidgetState extends State<ImageDetailsWidget>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 4.0, 8.0, 16.0),
                           child: Container(
                             width: 36.0,
@@ -209,12 +213,12 @@ class _ImageDetailsWidgetState extends State<ImageDetailsWidget>
                               ),
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.all(2.0),
+                              padding: EdgeInsets.all(2.0),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8.0),
                                 child: CachedNetworkImage(
-                                  fadeInDuration: const Duration(milliseconds: 200),
-                                  fadeOutDuration: const Duration(milliseconds: 200),
+                                  fadeInDuration: Duration(milliseconds: 200),
+                                  fadeOutDuration: Duration(milliseconds: 200),
                                   imageUrl: otherUserUsersRecord.photoUrl,
                                   width: 44.0,
                                   height: 44.0,
@@ -226,7 +230,7 @@ class _ImageDetailsWidgetState extends State<ImageDetailsWidget>
                         ),
                         Flexible(
                           child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 0.0, 8.0),
                             child: Column(
                               mainAxisSize: MainAxisSize.max,
@@ -248,7 +252,7 @@ class _ImageDetailsWidgetState extends State<ImageDetailsWidget>
                                           ),
                                     )),
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           0.0, 4.0, 0.0, 0.0),
                                       child: Text(
                                         dateTimeFormat(
@@ -263,10 +267,10 @@ class _ImageDetailsWidgetState extends State<ImageDetailsWidget>
                                             .labelSmall,
                                       ),
                                     ),
-                                  ].divide(const SizedBox(width: 4.0)),
+                                  ].divide(SizedBox(width: 4.0)),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 4.0, 0.0, 0.0),
                                   child: SelectionArea(
                                       child: AutoSizeText(

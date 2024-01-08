@@ -1,7 +1,9 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'auth/firebase_auth/firebase_user_provider.dart';
 import 'auth/firebase_auth/auth_util.dart';
 
@@ -9,7 +11,18 @@ import 'backend/firebase/firebase_config.dart';
 import 'flutter_flow/flutter_flow_theme.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 import 'flutter_flow/internationalization.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'flutter_flow/nav/nav.dart';
 import 'index.dart';
+
+import 'datum.dart'; // Import your Datum class
+
+Future<List<Datum>> loadStockData() async {
+  final String fileContent = await rootBundle.loadString('assets/data.json');
+  final List<dynamic> data = jsonDecode(fileContent);
+  return data.map((json) => Datum.fromJson(json)).toList();
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,12 +31,34 @@ void main() async {
 
   await FlutterFlowTheme.initialize();
 
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  // ... (existing code)
 
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp.router(
+      title: 'chat application',
+      // ... (existing configuration)
+
+      routerConfig: _router,
+    );
+  }
+}
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  usePathUrlStrategy();
+  await initFirebase();
+
+  await FlutterFlowTheme.initialize();
+
+  runApp(MyApp());
+}
+
+class MyApp extends StatefulWidget {
   // This widget is the root of your application.
   @override
   State<MyApp> createState() => _MyAppState();
@@ -53,7 +88,7 @@ class _MyAppState extends State<MyApp> {
       ..listen((user) => _appStateNotifier.update(user));
     jwtTokenStream.listen((_) {});
     Future.delayed(
-      const Duration(milliseconds: 1000),
+      Duration(milliseconds: 1000),
       () => _appStateNotifier.stopShowingSplashImage(),
     );
   }
@@ -78,7 +113,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'chat application',
-      localizationsDelegates: const [
+      localizationsDelegates: [
         FFLocalizationsDelegate(),
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -91,11 +126,11 @@ class _MyAppState extends State<MyApp> {
       ],
       theme: ThemeData(
         brightness: Brightness.light,
-        scrollbarTheme: const ScrollbarThemeData(),
+        scrollbarTheme: ScrollbarThemeData(),
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
-        scrollbarTheme: const ScrollbarThemeData(),
+        scrollbarTheme: ScrollbarThemeData(),
       ),
       themeMode: _themeMode,
       routerConfig: _router,
@@ -104,7 +139,7 @@ class _MyAppState extends State<MyApp> {
 }
 
 class NavBarPage extends StatefulWidget {
-  const NavBarPage({super.key, this.initialPage, this.page});
+  NavBarPage({Key? key, this.initialPage, this.page}) : super(key: key);
 
   final String? initialPage;
   final Widget? page;
@@ -128,12 +163,12 @@ class _NavBarPageState extends State<NavBarPage> {
   @override
   Widget build(BuildContext context) {
     final tabs = {
-      'auth_2_Login': const Auth2LoginWidget(),
-      'chat_2_main': const Chat2MainWidget(),
-      'auth_2_Profile': const Auth2ProfileWidget(),
-      'auth_2_EditProfile': const Auth2EditProfileWidget(),
-      'chat_2_InviteUsers': const Chat2InviteUsersWidget(),
-      'auth_2_ForgotPassword': const Auth2ForgotPasswordWidget(),
+      'auth_2_Login': Auth2LoginWidget(),
+      'chat_2_main': Chat2MainWidget(),
+      'auth_2_Profile': Auth2ProfileWidget(),
+      'auth_2_EditProfile': Auth2EditProfileWidget(),
+      'chat_2_InviteUsers': Chat2InviteUsersWidget(),
+      'auth_2_ForgotPassword': Auth2ForgotPasswordWidget(),
     };
     final currentIndex = tabs.keys.toList().indexOf(_currentPageName);
 
@@ -153,7 +188,7 @@ class _NavBarPageState extends State<NavBarPage> {
         type: BottomNavigationBarType.fixed,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: const Icon(
+            icon: Icon(
               Icons.login_outlined,
               size: 24.0,
             ),
@@ -163,7 +198,7 @@ class _NavBarPageState extends State<NavBarPage> {
             tooltip: '',
           ),
           BottomNavigationBarItem(
-            icon: const Icon(
+            icon: Icon(
               Icons.forum_outlined,
               size: 24.0,
             ),
@@ -173,7 +208,7 @@ class _NavBarPageState extends State<NavBarPage> {
             tooltip: '',
           ),
           BottomNavigationBarItem(
-            icon: const Icon(
+            icon: Icon(
               Icons.person,
               size: 24.0,
             ),
@@ -183,7 +218,7 @@ class _NavBarPageState extends State<NavBarPage> {
             tooltip: '',
           ),
           BottomNavigationBarItem(
-            icon: const Icon(
+            icon: Icon(
               Icons.edit,
               size: 24.0,
             ),
@@ -193,7 +228,7 @@ class _NavBarPageState extends State<NavBarPage> {
             tooltip: '',
           ),
           BottomNavigationBarItem(
-            icon: const Icon(
+            icon: Icon(
               Icons.person_add,
               size: 24.0,
             ),
@@ -203,7 +238,7 @@ class _NavBarPageState extends State<NavBarPage> {
             tooltip: '',
           ),
           BottomNavigationBarItem(
-            icon: const Icon(
+            icon: Icon(
               Icons.restore_sharp,
               size: 24.0,
             ),
